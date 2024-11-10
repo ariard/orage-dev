@@ -1,0 +1,29 @@
+Local access to the mempool view enables routing hops and LSP to perfom more efficiently two tasks:
+- passing backward HTLC preimage from the outbound edge to the inbound one (see `ChannelMonitor::get_pending_or_resolved_outbound_htlcs()`)
+- detecting an unconfirmed dual-funding double spend and freeing up the locked UTXOS (cf. [liquidity griefing for 0-conf dual-funded txs](https://lists.linuxfoundation.org/pipermail/lightning-dev/2023-May/003920.html))
+ 
+For the first task, if a) our counterparty realizes a force-close and b) there are non-expired received HTLC outputs on the force-closed
+commitment transaction and c) our counterparty broadcast one or more HTLC-success transactions on those outputs, once those latest
+transactions are well-propagated on the network mempools, we can fetch the preimage and transmit it to the ChannelManager for pending
+off-chain inbound HTLCs resolution (i.e sending an `update_fulfill_htlc` to our counterparty on the inbound edge). Liquidity is therefore
+unlock faster on the inbound edge without having to wait on counterparty's commitment transaction confirmation.
+
+For the second task, once we have dual-funding functional, we might accept counterparty's `TxAddInput` in the V2 channel establishment
+and commit some of our own inputs in the collaborative transaction for liquidity balanced channel opening. However, as long as the 
+channel is not confirmed, we're exposed to double-spend by our counterparty locking up our contributed UTXOs in a liquidity griefing,
+at the detrimental of others potential dual-funding flows we could enter into.
+
+This PR implements #2341 by introducing a `MempoolInterface`. This interface has for now a single method `watch_outpoint()`,
+where the implementation should return any in-mempool descendant for the given `OutPoint`. This can be implemented given
+Bitcoin Core's `getmempooldescendant` (or I think a very similar rpc `getutxomempooldescendant` that I'll have to land there as 
+a first step).
+
+Few integration approaches for a default `MempoolInterface` implementation can be considered:
+- make it a new trait object in `ChainMonitor` ?
+- make it a simple trait like `FeeEstimator` or `FeeEstimator` and defer implementation to downstream LDK users ?
+
+The first option has the advantage to have a more robust and consistent integration if the mempool interface becomes
+more complex in function of mempool evolution works on the Core side (e.g package policy or mempool clusters).
+
+Do we have more interface approach to consider before I propose the necesary changes on the Core side to have
+a functional end-to-end mempool scanning for review ?

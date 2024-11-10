@@ -1,0 +1,72 @@
+   Compiling lightning v0.0.115 (/Users/ariard/Bitcoin/rust-lightning/lightning)
+error[E0405]: cannot find trait `CustomOutput` in this scope
+  --> lightning/src/chain/onchaintx.rs:60:38
+   |
+60 | struct OnchainEventEntry<C> where C: CustomOutput {
+   |                                      ^^^^^^^^^^^^ not found in this scope
+
+error[E0405]: cannot find trait `CustomOutput` in this scope
+  --> lightning/src/chain/onchaintx.rs:80:31
+   |
+80 | enum OnchainEvent<C> where C: CustomOutput {
+   |                               ^^^^^^^^^^^^ not found in this scope
+
+error[E0405]: cannot find trait `CustomOutput` in this scope
+   --> lightning/src/chain/package.rs:330:48
+    |
+330 | pub(crate) enum PackageSolvingData<C> where C: CustomOutput {
+    |                                                ^^^^^^^^^^^^ not found in this scope
+
+error[E0405]: cannot find trait `CustomOutput` in this scope
+   --> lightning/src/chain/package.rs:340:40
+    |
+340 | impl<C> PackageSolvingData<C> where C: CustomOutput {
+    |                                        ^^^^^^^^^^^^ not found in this scope
+
+error[E0405]: cannot find trait `CustomOutput` in this scope
+   --> lightning/src/chain/package.rs:521:40
+    |
+521 | pub struct PackageTemplate<C> where C: CustomOutput {
+    |                                        ^^^^^^^^^^^^ not found in this scope
+
+error[E0405]: cannot find trait `CustomOutput` in this scope
+   --> lightning/src/chain/package.rs:556:37
+    |
+556 | impl<C> PackageTemplate<C> where C: CustomOutput {
+    |                                     ^^^^^^^^^^^^ not found in this scope
+
+error[E0405]: cannot find trait `CustomOutput` in this scope
+   --> lightning/src/chain/package.rs:865:51
+    |
+865 | impl<C> Writeable for PackageTemplate<C> where C: CustomOutput {
+    |                                                   ^^^^^^^^^^^^ not found in this scope
+
+error[E0405]: cannot find trait `CustomOutput` in this scope
+   --> lightning/src/chain/package.rs:882:50
+    |
+882 | impl<C> Readable for PackageTemplate<C> where C: CustomOutput {
+    |                                                  ^^^^^^^^^^^^ not found in this scope
+
+warning: lint `const_err` has been removed: converted into hard error, see issue #71800 <https://github.com/rust-lang/rust/issues/71800> for more information
+    --> lightning/src/ln/channelmanager.rs:1065:8
+     |
+1065 | #[deny(const_err)]
+     |        ^^^^^^^^^
+     |
+     = note: `#[warn(renamed_and_removed_lints)]` on by default
+
+warning: lint `const_err` has been removed: converted into hard error, see issue #71800 <https://github.com/rust-lang/rust/issues/71800> for more information
+    --> lightning/src/ln/channelmanager.rs:1071:8
+     |
+1071 | #[deny(const_err)]
+     |        ^^^^^^^^^
+
+warning: lint `const_err` has been removed: converted into hard error, see issue #71800 <https://github.com/rust-lang/rust/issues/71800> for more information
+    --> lightning/src/ln/peer_handler.rs:2119:9
+     |
+2119 |     #[deny(const_err)]
+     |            ^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0405`.
+warning: `lightning` (lib test) generated 3 warnings
+error: could not compile `lightning` due to 8 previous errors; 3 warnings emitted

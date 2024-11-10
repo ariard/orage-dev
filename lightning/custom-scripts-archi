@@ -1,0 +1,40 @@
+
+
+					-------------------
+					|		  |
+					| ContractManager |
+					|_________________|
+						/
+					      /
+					    /
+			     --------------------	
+			     |			|	
+			     |	ChannelMonitor  |
+			     |__________________|
+				/
+			      /
+			    /
+		--------------------
+		|		   |
+		| OnchainTxHandler |
+		|__________________|
+
+
+
+
+
+				
+
+
+							+ crates 2-of-3 CHECKMULTISIG
+			
+				[
+			       /
+			      /
+			    [Custom Updates]
+			    /
+			   /
+			[Add invariants]
+			 /
+			/
+		[CustomClaimOutput]

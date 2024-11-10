@@ -1,0 +1,15 @@
+[package]
+name = "orage-dev"
+license = "MIT or Apache-2.0"
+version = "0.0.1"
+authors = ["Antoine Riard <dev@ariard.me>"]
+description = """A big metal Lightning node"""
+edition = "2021"
+
+[[bin]]
+name = "oraged"
+path = "src/main.rs"
+
+[[bin]]
+name = "monitor"
+path = "src/main.rs"
